@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Reminders — Vehicle Management System{% endblock %}
+{% block page_id %}reminders{% endblock %}
+{% block topbar_title %}Reminders{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Reminders</h1>
+    <p>Pengingat servis dan perawatan berdasarkan tanggal atau odometer.</p>
+  </div>
+  <button class="btn btn-accent" id="add-record-btn" type="button">+ Tambah Reminder</button>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="table-toolbar">
+      <select class="form-select" id="vehicle-filter" aria-label="Filter kendaraan"></select>
+      <input class="form-control" id="record-search" type="search" placeholder="Cari judul reminder...">
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Judul</th>
+            <th>Kendaraan</th>
+            <th>Jatuh Tempo</th>
+            <th>Odometer</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="records-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="record-modal" tabindex="-1" aria-labelledby="record-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="record-form" novalidate>
+        <div class="modal-header">
+          <h2 class="modal-title" id="record-modal-title">Tambah Reminder</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-errors d-none"></div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="reminder-vehicle">Kendaraan</label>
+              <select class="form-select" id="reminder-vehicle" name="vehicle" required></select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="reminder-status">Status</label>
+              <select class="form-select" id="reminder-status" name="status" required>
+                <option value="PENDING" selected>Pending</option>
+                <option value="COMPLETED">Selesai</option>
+                <option value="CANCELLED">Dibatalkan</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="reminder-title">Judul</label>
+              <input class="form-control" id="reminder-title" name="title" type="text" maxlength="150" placeholder="Contoh: Ganti oli 30.000 km" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="reminder-due-date">Jatuh Tempo (tanggal)</label>
+              <input class="form-control" id="reminder-due-date" name="due_date" type="date">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="reminder-due-mileage">Jatuh Tempo (odometer)</label>
+              <input class="form-control" id="reminder-due-mileage" name="due_mileage" type="number" min="0" step="1" placeholder="km">
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="reminder-description">Deskripsi</label>
+              <textarea class="form-control" id="reminder-description" name="description" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
+              <div class="text-muted mt-2">Isi minimal salah satu: tanggal atau odometer.</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-muted" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-accent">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/records.js' %}"></script>
+<script src="{% static 'js/reminders.js' %}"></script>
+{% endblock %}

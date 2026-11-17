@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Fuel Tracking — Vehicle Management System{% endblock %}
+{% block page_id %}fuel{% endblock %}
+{% block topbar_title %}Fuel Tracking{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Fuel Tracking</h1>
+    <p>Catat pengisian BBM dan pantau konsumsi bahan bakar.</p>
+  </div>
+  <button class="btn btn-accent" id="add-record-btn" type="button">+ Tambah Pengisian</button>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="table-toolbar">
+      <select class="form-select" id="vehicle-filter" aria-label="Filter kendaraan"></select>
+      <input class="form-control" id="record-search" type="search" placeholder="Cari SPBU...">
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Kendaraan</th>
+            <th>Odometer</th>
+            <th>Liter</th>
+            <th>Harga/Liter</th>
+            <th>Total</th>
+            <th>Full Tank</th>
+            <th>SPBU</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="records-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="record-modal" tabindex="-1" aria-labelledby="record-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form id="record-form" novalidate>
+        <div class="modal-header">
+          <h2 class="modal-title" id="record-modal-title">Tambah Pengisian BBM</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-errors d-none"></div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="fuel-vehicle">Kendaraan</label>
+              <select class="form-select" id="fuel-vehicle" name="vehicle" required></select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="fuel-date">Tanggal</label>
+              <input class="form-control" id="fuel-date" name="date" type="date" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="fuel-mileage">Odometer (km)</label>
+              <input class="form-control" id="fuel-mileage" name="mileage" type="number" min="0" step="1" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="fuel-station">SPBU</label>
+              <input class="form-control" id="fuel-station" name="station_name" type="text" maxlength="120" placeholder="Nama SPBU (opsional)">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="fuel-liters">Jumlah (liter)</label>
+              <input class="form-control" id="fuel-liters" name="liters" type="number" min="0.01" step="0.01" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="fuel-price">Harga per Liter (Rp)</label>
+              <input class="form-control" id="fuel-price" name="price_per_liter" type="number" min="0" step="0.01" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="fuel-total-preview">Total (otomatis)</label>
+              <input class="form-control" id="fuel-total-preview" type="text" value="Rp 0,00" disabled>
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+              <div class="form-check">
+                <input class="form-check-input" id="fuel-full-tank" name="is_full_tank" type="checkbox">
+                <label class="form-check-label" for="fuel-full-tank">Full tank</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-muted" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-accent">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/records.js' %}"></script>
+<script src="{% static 'js/fuel.js' %}"></script>
+{% endblock %}

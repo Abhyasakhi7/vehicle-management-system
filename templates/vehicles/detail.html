@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Detail Kendaraan — Vehicle Management System{% endblock %}
+{% block page_id %}vehicles{% endblock %}
+{% block topbar_title %}Detail Kendaraan{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <a class="text-muted" href="{% url 'vehicles' %}">&larr; Kembali ke daftar kendaraan</a>
+    <h1 id="vehicle-title">Memuat...</h1>
+    <p id="vehicle-subtitle">-</p>
+  </div>
+  <div class="d-flex gap-2">
+    <button class="btn btn-outline-muted" id="edit-vehicle-btn" type="button">Edit</button>
+    <button class="btn btn-outline-danger" id="delete-vehicle-btn" type="button">Hapus</button>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom: 22px;">
+  <div class="card-header">
+    <h2>Informasi Kendaraan</h2>
+  </div>
+  <div class="card-body">
+    <div class="detail-grid" id="vehicle-details"></div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-header">
+      <h2>Riwayat Servis</h2>
+      <a class="text-muted" id="maintenance-link" href="{% url 'maintenance' %}">Lihat semua</a>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Jenis</th>
+            <th>Odometer</th>
+            <th>Biaya</th>
+          </tr>
+        </thead>
+        <tbody id="detail-maintenance-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Riwayat BBM</h2>
+      <a class="text-muted" id="fuel-link" href="{% url 'fuel' %}">Lihat semua</a>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Liter</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="detail-fuel-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top: 22px;">
+  <div class="card-header">
+    <h2>Pengeluaran Lain</h2>
+    <a class="text-muted" id="expenses-link" href="{% url 'expenses' %}">Lihat semua</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>Tanggal</th>
+          <th>Kategori</th>
+          <th>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody id="detail-expenses-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" id="vehicle-modal" tabindex="-1" aria-labelledby="vehicle-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form id="vehicle-form" novalidate>
+        <div class="modal-header">
+          <h2 class="modal-title" id="vehicle-modal-title">Edit Kendaraan</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-errors d-none"></div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="vehicle-name">Nama Kendaraan</label>
+              <input class="form-control" id="vehicle-name" name="name" type="text" maxlength="100" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="vehicle-plate">Plat Nomor</label>
+              <input class="form-control" id="vehicle-plate" name="plate_number" type="text" maxlength="20" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="vehicle-brand">Merek</label>
+              <input class="form-control" id="vehicle-brand" name="brand" type="text" maxlength="60" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="vehicle-model">Model</label>
+              <input class="form-control" id="vehicle-model" name="model" type="text" maxlength="60" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="vehicle-year">Tahun</label>
+              <input class="form-control" id="vehicle-year" name="year" type="number" min="1900" max="2100" step="1" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="vehicle-type">Tipe</label>
+              <select class="form-select" id="vehicle-type" name="vehicle_type" required>
+                <option value="CAR">Mobil</option>
+                <option value="MOTORCYCLE">Motor</option>
+                <option value="OTHER">Lainnya</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="vehicle-color">Warna</label>
+              <input class="form-control" id="vehicle-color" name="color" type="text" maxlength="40">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="vehicle-fuel">Bahan Bakar</label>
+              <select class="form-select" id="vehicle-fuel" name="fuel_type" required>
+                <option value="PETROL">Bensin</option>
+                <option value="DIESEL">Diesel</option>
+                <option value="ELECTRIC">Listrik</option>
+                <option value="HYBRID">Hybrid</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="vehicle-transmission">Transmisi</label>
+              <select class="form-select" id="vehicle-transmission" name="transmission" required>
+                <option value="MANUAL">Manual</option>
+                <option value="AUTOMATIC">Otomatis</option>
+                <option value="CVT">CVT</option>
+                <option value="OTHER">Lainnya</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="vehicle-mileage">Odometer (km)</label>
+              <input class="form-control" id="vehicle-mileage" name="mileage" type="number" min="0" step="1" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-muted" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-accent">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/vehicle-detail.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Maintenance — Vehicle Management System{% endblock %}
+{% block page_id %}maintenance{% endblock %}
+{% block topbar_title %}Maintenance{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Maintenance</h1>
+    <p>Riwayat servis dan perawatan seluruh kendaraan Anda.</p>
+  </div>
+  <button class="btn btn-accent" id="add-record-btn" type="button">+ Tambah Servis</button>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="table-toolbar">
+      <select class="form-select" id="vehicle-filter" aria-label="Filter kendaraan"></select>
+      <input class="form-control" id="record-search" type="search" placeholder="Cari deskripsi atau bengkel...">
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Kendaraan</th>
+            <th>Jenis</th>
+            <th>Deskripsi</th>
+            <th>Odometer</th>
+            <th>Biaya</th>
+            <th>Jadwal Berikutnya</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="records-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="record-modal" tabindex="-1" aria-labelledby="record-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form id="record-form" novalidate>
+        <div class="modal-header">
+          <h2 class="modal-title" id="record-modal-title">Tambah Catatan Servis</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-errors d-none"></div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="maintenance-vehicle">Kendaraan</label>
+              <select class="form-select" id="maintenance-vehicle" name="vehicle" required></select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="maintenance-type">Jenis Servis</label>
+              <select class="form-select" id="maintenance-type" name="service_type" required>
+                <option value="OIL_CHANGE">Ganti Oli</option>
+                <option value="TIRE">Ganti Ban</option>
+                <option value="BRAKES">Servis Rem</option>
+                <option value="BATTERY">Baterai</option>
+                <option value="GENERAL_SERVICE" selected>Servis Umum</option>
+                <option value="REPAIR">Perbaikan</option>
+                <option value="OTHER">Lainnya</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="maintenance-date">Tanggal Servis</label>
+              <input class="form-control" id="maintenance-date" name="service_date" type="date" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="maintenance-mileage">Odometer (km)</label>
+              <input class="form-control" id="maintenance-mileage" name="mileage" type="number" min="0" step="1" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="maintenance-cost">Biaya (Rp)</label>
+              <input class="form-control" id="maintenance-cost" name="cost" type="number" min="0" step="0.01" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="maintenance-workshop">Bengkel</label>
+              <input class="form-control" id="maintenance-workshop" name="workshop_name" type="text" maxlength="120" placeholder="Nama bengkel (opsional)">
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="maintenance-description">Deskripsi</label>
+              <textarea class="form-control" id="maintenance-description" name="description" rows="2" placeholder="Detail pekerjaan (opsional)"></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="maintenance-next-date">Servis Berikutnya</label>
+              <input class="form-control" id="maintenance-next-date" name="next_service_date" type="date">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="maintenance-next-mileage">Odometer Servis Berikutnya</label>
+              <input class="form-control" id="maintenance-next-mileage" name="next_service_mileage" type="number" min="0" step="1" placeholder="Opsional">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-muted" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-accent">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/records.js' %}"></script>
+<script src="{% static 'js/maintenance.js' %}"></script>
+{% endblock %}

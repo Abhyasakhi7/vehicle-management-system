@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Expenses — Vehicle Management System{% endblock %}
+{% block page_id %}expenses{% endblock %}
+{% block topbar_title %}Expenses{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Expenses</h1>
+    <p>Pengeluaran kendaraan di luar servis dan bahan bakar.</p>
+  </div>
+  <button class="btn btn-accent" id="add-record-btn" type="button">+ Tambah Pengeluaran</button>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="table-toolbar">
+      <select class="form-select" id="vehicle-filter" aria-label="Filter kendaraan"></select>
+      <input class="form-control" id="record-search" type="search" placeholder="Cari deskripsi...">
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Kendaraan</th>
+            <th>Kategori</th>
+            <th>Deskripsi</th>
+            <th>Jumlah</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="records-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="record-modal" tabindex="-1" aria-labelledby="record-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="record-form" novalidate>
+        <div class="modal-header">
+          <h2 class="modal-title" id="record-modal-title">Tambah Pengeluaran</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-errors d-none"></div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="expense-vehicle">Kendaraan</label>
+              <select class="form-select" id="expense-vehicle" name="vehicle" required></select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="expense-category">Kategori</label>
+              <select class="form-select" id="expense-category" name="category" required>
+                <option value="TAX">Pajak</option>
+                <option value="INSURANCE">Asuransi</option>
+                <option value="PARKING">Parkir</option>
+                <option value="TOLL">Tol</option>
+                <option value="WASH">Cuci Kendaraan</option>
+                <option value="OTHER" selected>Lainnya</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="expense-date">Tanggal</label>
+              <input class="form-control" id="expense-date" name="date" type="date" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="expense-amount">Jumlah (Rp)</label>
+              <input class="form-control" id="expense-amount" name="amount" type="number" min="0" step="0.01" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="expense-description">Deskripsi</label>
+              <input class="form-control" id="expense-description" name="description" type="text" maxlength="200" placeholder="Contoh: Perpanjangan pajak tahunan" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-muted" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-accent">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/records.js' %}"></script>
+<script src="{% static 'js/expenses.js' %}"></script>
+{% endblock %}

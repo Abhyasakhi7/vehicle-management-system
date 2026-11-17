@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard — Vehicle Management System{% endblock %}
+{% block page_id %}dashboard{% endblock %}
+{% block topbar_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Dashboard</h1>
+    <p id="dashboard-summary">Memuat ringkasan kendaraan...</p>
+  </div>
+  <form class="d-flex flex-wrap gap-2 align-items-end" id="dashboard-filter">
+    <div>
+      <label class="form-label" for="start-date">Dari</label>
+      <input class="form-control" id="start-date" name="start_date" type="date">
+    </div>
+    <div>
+      <label class="form-label" for="end-date">Sampai</label>
+      <input class="form-control" id="end-date" name="end_date" type="date">
+    </div>
+    <button class="btn btn-accent" type="submit">Terapkan</button>
+    <button class="btn btn-outline-muted" id="reset-filter" type="button">Reset</button>
+  </form>
+</div>
+
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="stat-label">Total Pengeluaran</div>
+    <div class="stat-value" id="stat-cost">Rp 0,00</div>
+    <div class="stat-sub" id="stat-period">Semua waktu</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Maintenance</div>
+    <div class="stat-value" id="stat-maintenance">Rp 0,00</div>
+    <div class="stat-sub">Servis &amp; perawatan</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Bahan Bakar</div>
+    <div class="stat-value" id="stat-fuel">Rp 0,00</div>
+    <div class="stat-sub">Total pengisian BBM</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Pengeluaran Lain</div>
+    <div class="stat-value" id="stat-expenses">Rp 0,00</div>
+    <div class="stat-sub" id="stat-vehicles">0 kendaraan</div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-header">
+      <h2>Pengeluaran 6 Bulan</h2>
+      <span class="text-muted">Total per bulan</span>
+    </div>
+    <div class="card-body">
+      <div class="chart" id="monthly-chart"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Aktivitas Terbaru</h2>
+    </div>
+    <div class="card-body">
+      <div class="activity-list" id="recent-activity"></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h2>Servis Mendatang</h2>
+    <a class="text-muted" href="{% url 'maintenance' %}">Lihat maintenance</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>Kendaraan</th>
+          <th>Jenis Servis</th>
+          <th>Tanggal Servis</th>
+          <th>Jadwal Berikutnya</th>
+          <th>Odometer</th>
+          <th>Biaya</th>
+        </tr>
+      </thead>
+      <tbody id="upcoming-maintenance-body"></tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

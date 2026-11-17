@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Vehicles — Vehicle Management System{% endblock %}
+{% block page_id %}vehicles{% endblock %}
+{% block topbar_title %}My Vehicles{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>My Vehicles</h1>
+    <p>Kelola data kendaraan yang Anda pantau.</p>
+  </div>
+  <button class="btn btn-accent" id="add-vehicle-btn" type="button">+ Tambah Kendaraan</button>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h2>Daftar Kendaraan</h2>
+    <span class="text-muted" id="vehicle-count">0 kendaraan</span>
+  </div>
+  <div class="card-body">
+    <div class="table-toolbar">
+      <input class="form-control" id="vehicle-search" type="search" placeholder="Cari nama, merek, model, atau plat...">
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>Merek / Model</th>
+            <th>Tahun</th>
+            <th>Plat Nomor</th>
+            <th>Tipe</th>
+            <th>Odometer</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="vehicles-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="vehicle-modal" tabindex="-1" aria-labelledby="vehicle-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form id="vehicle-form" novalidate>
+        <div class="modal-header">
+          <h2 class="modal-title" id="vehicle-modal-title">Tambah Kendaraan</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-errors d-none"></div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="vehicle-name">Nama Kendaraan</label>
+              <input class="form-control" id="vehicle-name" name="name" type="text" maxlength="100" placeholder="Contoh: Mobil Harian" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="vehicle-plate">Plat Nomor</label>
+              <input class="form-control" id="vehicle-plate" name="plate_number" type="text" maxlength="20" placeholder="B 1234 XYZ" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="vehicle-brand">Merek</label>
+              <input class="form-control" id="vehicle-brand" name="brand" type="text" maxlength="60" placeholder="Toyota" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="vehicle-model">Model</label>
+              <input class="form-control" id="vehicle-model" name="model" type="text" maxlength="60" placeholder="Avanza" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="vehicle-year">Tahun</label>
+              <input class="form-control" id="vehicle-year" name="year" type="number" min="1900" max="2100" step="1" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="vehicle-type">Tipe</label>
+              <select class="form-select" id="vehicle-type" name="vehicle_type" required>
+                <option value="CAR" selected>Mobil</option>
+                <option value="MOTORCYCLE">Motor</option>
+                <option value="OTHER">Lainnya</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="vehicle-color">Warna</label>
+              <input class="form-control" id="vehicle-color" name="color" type="text" maxlength="40" placeholder="Silver (opsional)">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="vehicle-fuel">Bahan Bakar</label>
+              <select class="form-select" id="vehicle-fuel" name="fuel_type" required>
+                <option value="PETROL" selected>Bensin</option>
+                <option value="DIESEL">Diesel</option>
+                <option value="ELECTRIC">Listrik</option>
+                <option value="HYBRID">Hybrid</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="vehicle-transmission">Transmisi</label>
+              <select class="form-select" id="vehicle-transmission" name="transmission" required>
+                <option value="MANUAL" selected>Manual</option>
+                <option value="AUTOMATIC">Otomatis</option>
+                <option value="CVT">CVT</option>
+                <option value="OTHER">Lainnya</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="vehicle-mileage">Odometer (km)</label>
+              <input class="form-control" id="vehicle-mileage" name="mileage" type="number" min="0" step="1" value="0" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-muted" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-accent">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/vehicles.js' %}"></script>
+{% endblock %}

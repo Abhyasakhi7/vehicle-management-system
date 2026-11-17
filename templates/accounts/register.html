@@ -1,0 +1,33 @@
+{% extends "accounts/auth_base.html" %}
+{% load static %}
+
+{% block title %}Daftar — Vehicle Management System{% endblock %}
+{% block page_id %}register{% endblock %}
+
+{% block content %}
+<form id="register-form" novalidate>
+  <div class="form-errors d-none"></div>
+  <div>
+    <label class="form-label" for="username">Username</label>
+    <input class="form-control" id="username" name="username" type="text" autocomplete="username" placeholder="contoh: budi" required>
+  </div>
+  <div>
+    <label class="form-label" for="email">Email</label>
+    <input class="form-control" id="email" name="email" type="email" autocomplete="email" placeholder="nama@email.com" required>
+  </div>
+  <div>
+    <label class="form-label" for="password">Password</label>
+    <input class="form-control" id="password" name="password" type="password" autocomplete="new-password" required>
+  </div>
+  <div>
+    <label class="form-label" for="password_confirm">Konfirmasi Password</label>
+    <input class="form-control" id="password_confirm" name="password_confirm" type="password" autocomplete="new-password" required>
+  </div>
+  <button class="btn btn-accent" type="submit">Daftar</button>
+</form>
+<p class="auth-footer">Sudah punya akun? <a href="{% url 'login' %}">Masuk</a></p>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/auth.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Settings — Vehicle Management System{% endblock %}
+{% block page_id %}settings{% endblock %}
+{% block topbar_title %}Settings{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Settings</h1>
+    <p>Profil dan pengaturan sesi akun Anda.</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-header">
+      <h2>Profil</h2>
+    </div>
+    <div class="card-body">
+      <div class="detail-grid" id="profile-details">
+        <div class="detail-item">
+          <div class="detail-label">Memuat</div>
+          <div class="detail-value">...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Sesi</h2>
+    </div>
+    <div class="card-body">
+      <p class="text-muted">Keluar dari akun ini pada perangkat saat ini.</p>
+      <button class="btn btn-outline-danger" id="settings-logout-btn" type="button">Logout</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/settings.js' %}"></script>
+{% endblock %}

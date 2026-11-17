@@ -1,0 +1,25 @@
+{% extends "accounts/auth_base.html" %}
+{% load static %}
+
+{% block title %}Masuk — Vehicle Management System{% endblock %}
+{% block page_id %}login{% endblock %}
+
+{% block content %}
+<form id="login-form" novalidate>
+  <div class="form-errors d-none"></div>
+  <div>
+    <label class="form-label" for="identifier">Username atau Email</label>
+    <input class="form-control" id="identifier" name="identifier" type="text" autocomplete="username" placeholder="contoh: budi" required>
+  </div>
+  <div>
+    <label class="form-label" for="password">Password</label>
+    <input class="form-control" id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+  </div>
+  <button class="btn btn-accent" type="submit">Masuk</button>
+</form>
+<p class="auth-footer">Belum punya akun? <a href="{% url 'register' %}">Daftar sekarang</a></p>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/auth.js' %}"></script>
+{% endblock %}
